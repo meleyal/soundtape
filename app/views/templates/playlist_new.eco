@@ -1,0 +1,5 @@
+<form>
+  <input name="title" type="text" placeholder="Title">
+  <input name="description" type="text" placeholder="Description (optional)">
+  <button type="submit" class="create">Add</button>
+</form>

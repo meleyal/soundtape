@@ -1,0 +1,6 @@
+<%#<h2>Add the first track</h2>%>
+
+<form novalidate>
+  <input name="url" type="url" placeholder="SoundCloud track URL">
+  <button type="submit" class="sc-button create">Add</button>
+</form>

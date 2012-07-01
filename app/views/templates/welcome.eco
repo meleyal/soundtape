@@ -1,0 +1,8 @@
+<h2>Create playlists of your favorite tracks on SoundCloud.</h2>
+
+<form>
+  <input name="title" type="text" placeholder="Playlist name" autofocus><br>
+  <input name="description" type="text" placeholder="Playlist description (optional)">
+  <br><br>
+  <button type="submit">Create your first playlist</button>
+</form>
