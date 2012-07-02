@@ -116,6 +116,9 @@
     }
 
     Application.prototype.initialize = function() {
+      SC.initialize({
+        client_id: "76fc7439611dfed3405d099962c576d7"
+      });
       this.router = new Router;
       this.playlists = new Playlists;
       this.sounds = new Sounds;
@@ -168,7 +171,7 @@
       app.playlists.fetch();
       if (app.playlists.length > 0) {
         app.playlists.clearSelection();
-        return app.playlists.last().set({
+        return app.playlists.first().set({
           selected: true
         });
       } else {
@@ -307,8 +310,8 @@
       Sound.__super__.constructor.apply(this, arguments);
     }
 
-    Sound.prototype.initialize = function(options) {
-      return null;
+    Sound.prototype.defaults = {
+      playing: false
     };
 
     return Sound;
@@ -323,6 +326,7 @@
   "models/sounds": function(exports, require, module) {
     (function() {
   var Sounds,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
@@ -331,6 +335,7 @@
     __extends(Sounds, _super);
 
     function Sounds() {
+      this.pauseOthers = __bind(this.pauseOthers, this);
       Sounds.__super__.constructor.apply(this, arguments);
     }
 
@@ -339,7 +344,23 @@
     Sounds.prototype.localStorage = new Backbone.LocalStorage('Sounds');
 
     Sounds.prototype.initialize = function() {
-      return null;
+      return this.on('change:playing', this.pauseOthers);
+    };
+
+    Sounds.prototype.pauseOthers = function(sound) {
+      var other, others, _i, _len;
+      if (sound.get('playing')) {
+        others = this.filter(function(other) {
+          return other !== sound;
+        });
+        for (_i = 0, _len = others.length; _i < _len; _i++) {
+          other = others[_i];
+          other.set({
+            playing: false
+          });
+        }
+        return console.log(others);
+      }
     };
 
     return Sounds;
@@ -463,13 +484,16 @@
     };
 
     PlaylistNewView.prototype.create = function(e) {
-      var data;
+      var data, playlist;
       e.preventDefault();
       data = {
         title: this.$('input[name="title"]').val(),
         description: this.$('input[name="description"]').val()
       };
-      app.playlists.create(data);
+      playlist = app.playlists.create(data);
+      playlist.set({
+        selected: true
+      });
       return this.remove();
     };
 
@@ -666,6 +690,7 @@
   "views/sound_view": function(exports, require, module) {
     (function() {
   var SoundView,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = Object.prototype.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
@@ -674,6 +699,9 @@
     __extends(SoundView, _super);
 
     function SoundView() {
+      this.render = __bind(this.render, this);
+      this.maybePause = __bind(this.maybePause, this);
+      this.togglePlay = __bind(this.togglePlay, this);
       SoundView.__super__.constructor.apply(this, arguments);
     }
 
@@ -681,11 +709,53 @@
 
     SoundView.prototype.template = require('./templates/sound');
 
+    SoundView.prototype.events = {
+      'click': 'togglePlay'
+    };
+
+    SoundView.prototype.togglePlay = function(e) {
+      var playing;
+      playing = this.model.get('playing');
+      this.model.set({
+        playing: !playing
+      });
+      return this.stream.togglePause();
+    };
+
+    SoundView.prototype.maybePause = function(model) {
+      if (model.get('playing') === false) return this.stream.pause();
+    };
+
     SoundView.prototype.render = function(model) {
+      var apiUrl, foo, req, url,
+        _this = this;
       this.model = model;
-      this.$el.html(this.template({
-        model: model
-      }));
+      this.model.on('change:playing', this.maybePause);
+      this.$el.html(this.template);
+      apiUrl = 'http://api.soundcloud.com/resolve.json';
+      url = this.model.get('url');
+      foo = "" + apiUrl + "?url=" + url + "&client_id=76fc7439611dfed3405d099962c576d7";
+      req = $.getJSON(foo);
+      req.success(function(data) {
+        var id;
+        id = data.id;
+        return SC.get("/tracks/" + id, function(track) {
+          req = $.getJSON("http://waveformjs.org/w?url=" + data.waveform_url + "&callback=?");
+          return req.success(function(data) {
+            var streamOptions;
+            _this.waveformData = data;
+            _this.waveform = new Waveform({
+              container: _this.$el[0],
+              innerColor: '#999',
+              data: data
+            });
+            streamOptions = _this.waveform.optionsForSyncedStream();
+            return SC.stream(track.uri, streamOptions, function(stream) {
+              return _this.stream = stream;
+            });
+          });
+        });
+      });
       return this;
     };
 
@@ -1068,9 +1138,7 @@
   (function() {
     (function() {
     
-      __out.push(this.model.get('html'));
     
-      __out.push('\n');
     
     }).call(this);
     
