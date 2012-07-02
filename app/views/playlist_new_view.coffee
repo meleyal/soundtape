@@ -22,5 +22,6 @@ module.exports = class PlaylistNewView extends Backbone.View
     data =
       title: @$('input[name="title"]').val()
       description: @$('input[name="description"]').val()
-    app.playlists.create(data)
+    playlist = app.playlists.create(data)
+    playlist.set(selected:true)
     @remove()
