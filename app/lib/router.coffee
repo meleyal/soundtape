@@ -12,10 +12,11 @@ module.exports = class Router extends Backbone.Router
     $('#content').append app.soundsView.render().el
 
     app.playlists.fetch()
+
     if app.playlists.length > 0
-      app.playlists.clearSelection()
-      app.playlists.last().set selected:true
-      #if app.playlists.current().sounds.length < 1
-        #app.soundsView.new()
+      if savedPlaylist = _.cookie 'playlist'
+        app.playlists.get(savedPlaylist).set selected:true
+      else
+        app.playlists.first().set selected:true
     else
       $('#content').append app.welcomeView.render().el

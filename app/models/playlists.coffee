@@ -6,14 +6,15 @@ module.exports = class Playlists extends Backbone.Collection
 
   initialize: ->
     @on 'change:selected', @deactivateOthers
+    @on 'change:selected', @setCookie
 
   current: ->
     @where(selected:true)[0]
-
-  clearSelection: ->
-    @each (model) -> model.set selected:false
 
   deactivateOthers: (active) ->
     others = @filter (playlist) -> playlist isnt active
     other.set(selected:false, { silent:true }) for other in others
 
+  setCookie: (model) =>
+    if model.get('selected')?
+      _.cookie 'playlist', model.get('id')
