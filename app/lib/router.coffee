@@ -1,6 +1,3 @@
-SoundsView = require '../views/sounds_view'
-SoundNewView = require '../views/sound_new_view'
-
 module.exports = class Router extends Backbone.Router
 
   routes:
