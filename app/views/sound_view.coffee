@@ -18,11 +18,11 @@ module.exports = class SoundView extends Backbone.View
     if model.get('play') then @stream.play() else @stream.pause()
 
   openOnSoundCloud: (e) =>
-    window.open @model.get('url')
+    window.open @model.get('permalink_url')
 
   # TODO:
   # - refactor into separate methods
-  # - move getting waveform data when creating sound
+  # - move getting waveform data to creating sound
   render: (@model) =>
     @$el.html @template
     @$el.attr('title', 'Double click to open on SoundCloud')
