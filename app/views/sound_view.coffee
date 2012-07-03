@@ -6,6 +6,7 @@ module.exports = class SoundView extends Backbone.View
 
   events:
     'click': 'togglePlay'
+    'dblclick': 'openOnSoundCloud'
 
   togglePlay: (e) =>
     play = @model.get('play')
@@ -18,11 +19,15 @@ module.exports = class SoundView extends Backbone.View
     #@waveform.update(@waveformData)
     #@render(model)
 
+  openOnSoundCloud: (e) =>
+    window.open @model.get('url')
+
   # TODO:
   # - refactor into separate methods
   # - move resolver into sound model
   render: (@model) =>
     @$el.html @template
+    @$el.attr('title', 'Double click to open on SoundCloud')
     @model.on 'change:play', @onChangePlaying
     @model.on 'finished', @onFinished
     apiUrl = 'http://api.soundcloud.com/resolve.json'
