@@ -5,6 +5,7 @@ module.exports = class Router extends Backbone.Router
 
   routes:
     '': 'index'
+    '*all': 'redirect'
 
   index: ->
     $('#content').append app.bannerView.render().el
@@ -20,3 +21,6 @@ module.exports = class Router extends Backbone.Router
         app.playlists.first().set selected:true
     else
       $('#content').append app.welcomeView.render().el
+
+  redirect: ->
+    @navigate ''
