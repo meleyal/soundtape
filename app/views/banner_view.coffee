@@ -1,14 +1,15 @@
-PlaylistsView = require './playlists_view'
 Playlist = require '../models/playlist'
 
 module.exports = class BannerView extends Backbone.View
 
   tagName: 'header'
+
   className: 'banner'
+
   template: require './templates/banner'
 
   events:
-    'click nav a': 'handleNavClick'
+    'click nav a': 'onNavClick'
 
   initialize: ->
     app.playlists.on 'change:selected', @render
@@ -19,7 +20,7 @@ module.exports = class BannerView extends Backbone.View
     @$el.css backgroundColor: model.get('color')
     this
 
-  handleNavClick: (e) =>
+  onNavClick: (e) =>
     e.preventDefault()
     el = $(e.currentTarget)
     action = el.attr('data-action')

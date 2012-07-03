@@ -17,11 +17,15 @@ module.exports = class PlaylistNewView extends Backbone.View
   show: ->
     @$el.show()
 
+  hide: ->
+    @$('form')[0].reset()
+    @$el.hide()
+
   create: (e) =>
     e.preventDefault()
     data =
       title: @$('input[name="title"]').val()
       description: @$('input[name="description"]').val()
     playlist = app.playlists.create(data)
-    playlist.set(selected:true)
-    @remove()
+    playlist.set selected:true
+    @hide()

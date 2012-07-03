@@ -18,6 +18,10 @@ module.exports = class SoundNewView extends Backbone.View
   show: ->
     @$el.show()
 
+  hide: ->
+    @$('form')[0].reset()
+    @$el.hide()
+
   create: (e) =>
     @playlist = app.playlists.current()
     e.preventDefault()
@@ -28,6 +32,6 @@ module.exports = class SoundNewView extends Backbone.View
       _.extend data, { url, playlist_id: @playlist.id }
       sound = @playlist.sounds.create(data)
       # TODO: refactor this, views should bind to add event
-      #app.soundsView.addOne(sound)
-      #app.bannerView.deactivateNav()
-      #@remove()
+      app.soundsView.addOne(sound)
+      app.bannerView.deactivateNav()
+      @hide()

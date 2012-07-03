@@ -14,8 +14,6 @@ module.exports = class PlaylistView extends Backbone.View
     this
 
   select: (e) =>
-    console.log @model
     #@model.sounds.fetch()
-    #console.log @model.sounds
     e.preventDefault()
     @model.set selected:true
