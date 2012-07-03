@@ -4,7 +4,7 @@ module.exports = class SoundView extends Backbone.View
 
   events:
     'click':    'togglePlay'
-    'dblclick': 'openOnSoundCloud'
+    'dblclick': 'showOnSoundCloud'
 
   initialize: ->
     @$el.attr 'title', 'Click to play, double click to open on SoundCloud'
@@ -16,7 +16,7 @@ module.exports = class SoundView extends Backbone.View
   onChangePlaying: (model) =>
     if model.get('play') then @stream.play() else @stream.pause()
 
-  openOnSoundCloud: (e) =>
+  showOnSoundCloud: (e) =>
     window.open @model.get('permalink_url')
 
   render: (@model) =>
