@@ -4,8 +4,10 @@ module.exports = class SoundView extends Backbone.View
 
   template: require './templates/sound'
 
+  apiUrl: 'http://waveformjs.org/w'
+
   events:
-    'click': 'togglePlay'
+    'click':    'togglePlay'
     'dblclick': 'openOnSoundCloud'
 
   togglePlay: (e) =>
@@ -15,41 +17,28 @@ module.exports = class SoundView extends Backbone.View
   onChangePlaying: (model) =>
     if model.get('play') then @stream.play() else @stream.pause()
 
-  onFinished: (model) =>
-    #@waveform.update(@waveformData)
-    #@render(model)
-
   openOnSoundCloud: (e) =>
     window.open @model.get('url')
 
   # TODO:
   # - refactor into separate methods
-  # - move resolver into sound model
+  # - move getting waveform data when creating sound
   render: (@model) =>
     @$el.html @template
     @$el.attr('title', 'Double click to open on SoundCloud')
-    @model.on 'change:play', @onChangePlaying
-    @model.on 'finished', @onFinished
-    apiUrl = 'http://api.soundcloud.com/resolve.json'
-    soundUrl = @model.get('url')
-    req = $.getJSON "#{apiUrl}?url=#{soundUrl}&client_id=#{app.apiKey}"
-    req.success (data) =>
-      id = data.id
-      SC.get "/tracks/#{id}", (track) =>
-        # waveform.dataFromSoundCloudTrack(track) :(
-        req = $.getJSON "http://waveformjs.org/w?url=#{data.waveform_url}&callback=?"
-        req.success (data) =>
-          @waveformData = data
-          @waveform = new Waveform({
-            container: @$el[0]
-            innerColor: '#999'
-            data: data
-          })
-          streamOptions = @waveform.optionsForSyncedStream()
-          options =
-            onfinish: (=> @model.trigger('finished', @model))
-          _.extend( streamOptions, options )
-          SC.stream track.uri, streamOptions, (stream) => @stream = stream
+    model.on 'change:play', @onChangePlaying
+    model.on 'finished', @onFinished
+    SC.get "/tracks/#{model.id}", (track) =>
+      # waveform.dataFromSoundCloudTrack(track) # :( not working http://goo.gl/hySSh
+      req = $.getJSON "#{@apiUrl}?url=#{model.get('waveform_url')}&callback=?"
+      req.success (res) =>
+        waveOptions = { container: @$el[0], innerColor: '#999', data: res }
+        @waveform = new Waveform(waveOptions)
+        streamOptions = @waveform.optionsForSyncedStream()
+        options =
+          onfinish: (=> @model.trigger('finished', @model))
+        _.extend( streamOptions, options )
+        SC.stream track.uri, streamOptions, (stream) => @stream = stream
     this
 
 

@@ -4,12 +4,10 @@ module.exports = class SoundNewView extends Backbone.View
 
   template: require './templates/sound_new'
 
-  apiUrl: 'http://soundcloud.com/oembed'
+  apiUrl: 'http://api.soundcloud.com/resolve.json'
 
   events:
     'submit form': 'create'
-
-  initialize: ->
 
   render: =>
     @$el.html @template
@@ -22,16 +20,24 @@ module.exports = class SoundNewView extends Backbone.View
     @$('form')[0].reset()
     @$el.hide()
 
+  # TODO:
+  # - refactor into new + create methods
+  # - move resolver into model
   create: (e) =>
-    @playlist = app.playlists.current()
     e.preventDefault()
-    url = @$('input[name="url"]').val()
-    options = $.param { url: url, show_comments: false }
-    req = $.getJSON "#{@apiUrl}?#{options}"
-    req.success (data) =>
-      _.extend data, { url, playlist_id: @playlist.id }
-      sound = @playlist.sounds.create(data)
-      # TODO: refactor this, views should bind to add event
-      app.soundsView.addOne(sound)
-      app.bannerView.deactivateNav()
-      @hide()
+    playlist = app.playlists.current()
+    soundUrl = @$('input[name="url"]').val()
+    unless soundUrl is ""
+      req = $.getJSON "#{@apiUrl}?url=#{soundUrl}&client_id=#{app.apiKey}"
+      # TODO: move to create method
+      req.success (res) =>
+        data =
+          url: soundUrl
+          track_id: res.id
+          playlist_id: playlist.id
+        _.extend res, data
+        sound = playlist.sounds.create(res)
+        # TODO: refactor, views should bind to add event
+        app.soundsView.addOne(sound)
+        app.bannerView.deactivateNav()
+        @hide()
