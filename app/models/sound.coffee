@@ -1,7 +1,7 @@
 module.exports = class Sound extends Backbone.Model
 
-  initialize: (options) ->
-    null
+  defaults:
+    playing: false
 
   #validate: (attrs) ->
     #console.log 'validate'

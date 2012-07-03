@@ -5,12 +5,23 @@ module.exports = class SoundView extends Backbone.View
   template: require './templates/sound'
 
   events:
-    'click': 'play'
+    'click': 'togglePlay'
 
-  play: (e) =>
-    @stream.togglePause()
+  togglePlay: (e) =>
+    playing = @model.get('playing')
+    @model.set(playing:!playing)
 
+  onChangePlaying: (model) =>
+    if model.get('playing') is true
+      @stream.play()
+    else
+      @stream.pause()
+
+  # TODO:
+  # - refactor into separate methods
+  # - move resolver into sound model
   render: (@model) =>
+    @model.on 'change:playing', @onChangePlaying
     @$el.html @template
     apiUrl = 'http://api.soundcloud.com/resolve.json'
     url = @model.get('url')
@@ -19,15 +30,17 @@ module.exports = class SoundView extends Backbone.View
     req.success (data) =>
       id = data.id
       SC.get "/tracks/#{id}", (track) =>
-        #waveform.dataFromSoundCloudTrack(track) req = $.getJSON "http://waveformjs.org/w?url=#{data.waveform_url}&callback=?"
+        #waveform.dataFromSoundCloudTrack(track)
         req = $.getJSON "http://waveformjs.org/w?url=#{data.waveform_url}&callback=?"
         req.success (data) =>
-          waveform = new Waveform({
-            innerColor: '#999'
+          @waveformData = data
+          @waveform = new Waveform({
             container: @$el[0]
+            innerColor: '#999'
             data: data
           })
-          streamOptions = waveform.optionsForSyncedStream()
+          streamOptions = @waveform.optionsForSyncedStream()
           SC.stream track.uri, streamOptions, (stream) => @stream = stream
     this
+
 
