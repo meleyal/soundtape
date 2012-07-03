@@ -13,6 +13,6 @@
   <% if @model.collection?.length > 0 : %>
     <a href="#" data-action="add-playlist">Add Playlist +</a>
     <a href="#" data-action="show-playlists"><%= @model.collection.length %> playlists</a>
-    <a href="#" data-action="add-sound" class="divide">Add track +</a>
+    <a href="#" data-action="add-sound" class="divide">Add track to <%= @model.get('title') %> +</a>
   <% end %>
 </nav>
