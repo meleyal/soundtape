@@ -4,7 +4,9 @@ module.exports = class SoundNewView extends Backbone.View
 
   template: require './templates/sound_new'
 
-  apiUrl: 'http://api.soundcloud.com/resolve.json'
+  apiUrls:
+    resolve:  'http://api.soundcloud.com/resolve.json'
+    waveform: 'http://waveformjs.org/w'
 
   events:
     'submit form': 'new'
@@ -24,14 +26,25 @@ module.exports = class SoundNewView extends Backbone.View
     e.preventDefault()
     soundUrl = @$('input[name="url"]').val()
     unless soundUrl is ""
-      req = $.getJSON "#{@apiUrl}?url=#{soundUrl}&client_id=#{app.apiKey}"
+      req = $.getJSON "#{@apiUrls.resolve}?url=#{soundUrl}&client_id=#{app.apiKey}"
       req.success @create
 
+  # TODO: refactor, views should bind to add event
   create: (res) =>
     playlist = app.playlists.current()
-    _.extend res, { track_id: res.id, playlist_id: playlist.id }
-    sound = playlist.sounds.create(res)
-    # TODO: refactor, views should bind to add event
-    app.soundsView.addOne(sound)
-    app.bannerView.deactivateNav()
-    @hide()
+    $.when(@getWaveformData(res.waveform_url))
+     .then (waveformData) =>
+        extraData =
+          track_id: res.id
+          playlist_id: playlist.id
+          waveform_data: waveformData
+        sound = playlist.sounds.create(_.extend res, extraData)
+        app.soundsView.addOne(sound)
+        app.bannerView.deactivateNav()
+        @hide()
+
+  getWaveformData: (waveform_url) ->
+    dfd = $.Deferred()
+    req = $.getJSON "#{@apiUrls.waveform}?url=#{waveform_url}&callback=?"
+    req.success (res) => dfd.resolve(res)
+    dfd.promise()
