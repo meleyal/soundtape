@@ -5,10 +5,10 @@ module.exports = class Sounds extends Backbone.Collection
   localStorage: new Backbone.LocalStorage('Sounds')
 
   initialize: ->
-    @on 'change:playing', @pauseOthers
+    @on 'change:play', @pauseOthers
 
   pauseOthers: (sound) =>
-    if sound.get('playing')
+    if sound.get('play')
       others = @filter (other) -> other isnt sound
-      other.set(playing:false) for other in others
+      other.set(play:false) for other in others
 
