@@ -18,7 +18,8 @@ module.exports = class Application
       Backbone.history.start(pushState:true)
 
   initialize: ->
-    SC.initialize client_id: "76fc7439611dfed3405d099962c576d7"
+    @apiKey = '76fc7439611dfed3405d099962c576d7'
+    SC.initialize client_id: @apiKey
     @router = new Router
     @playlists = new Playlists
     @sounds = new Sounds

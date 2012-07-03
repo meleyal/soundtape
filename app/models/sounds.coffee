@@ -11,4 +11,3 @@ module.exports = class Sounds extends Backbone.Collection
     if sound.get('play')
       others = @filter (other) -> other isnt sound
       other.set(play:false) for other in others
-

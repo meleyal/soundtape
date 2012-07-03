@@ -14,16 +14,20 @@ module.exports = class SoundView extends Backbone.View
   onChangePlaying: (model) =>
     if model.get('play') then @stream.play() else @stream.pause()
 
+  onFinished: (model) =>
+    #@waveform.update(@waveformData)
+    #@render(model)
+
   # TODO:
   # - refactor into separate methods
   # - move resolver into sound model
   render: (@model) =>
-    @model.on 'change:play', @onChangePlaying
     @$el.html @template
+    @model.on 'change:play', @onChangePlaying
+    @model.on 'finished', @onFinished
     apiUrl = 'http://api.soundcloud.com/resolve.json'
-    url = @model.get('url')
-    foo = "#{apiUrl}?url=#{url}&client_id=76fc7439611dfed3405d099962c576d7"
-    req = $.getJSON foo
+    soundUrl = @model.get('url')
+    req = $.getJSON "#{apiUrl}?url=#{soundUrl}&client_id=#{app.apiKey}"
     req.success (data) =>
       id = data.id
       SC.get "/tracks/#{id}", (track) =>
@@ -37,6 +41,9 @@ module.exports = class SoundView extends Backbone.View
             data: data
           })
           streamOptions = @waveform.optionsForSyncedStream()
+          options =
+            onfinish: (=> @model.trigger('finished', @model))
+          _.extend( streamOptions, options )
           SC.stream track.uri, streamOptions, (stream) => @stream = stream
     this
 
