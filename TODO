@@ -1,9 +1,7 @@
 TODO:
 
-✓ solution for adding tracks to current playlist
-✓ re-render sounds view when new one is added
-✓ show mixtapes list in banner
-✓ show add playlist form
-✓ switch to playlist when added
-✓ re-render sounds on playlist change
-✓ only one tab should be active at once
+✓ refactor sound saving / rendering
+✓ cleanup css
+✓ cleanup JS
+✓ validation!
+✓ readme
