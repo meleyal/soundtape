@@ -11,6 +11,9 @@ module.exports = class TabsView extends Backbone.View
   switchTo: (tab) ->
     @$('.tab').hide()
     switch tab
-      when 'show-playlists' then @$('.playlists').show()
-      when 'add-playlist' then @$('.playlist-new').show()
-      when 'add-sound' then @$('.sound-new').show()
+      when 'show-playlists'
+        @$('.playlists').show()
+      when 'add-playlist'
+        @$('.playlist-new').show().find('input').first().focus()
+      when 'add-sound'
+        @$('.sound-new').show().find('input').focus()
