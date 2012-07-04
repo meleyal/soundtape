@@ -26,3 +26,5 @@ exports.config =
     templates:
       defaultExtension: 'eco'
       joinTo: 'javascripts/app.js'
+
+  minify: no
