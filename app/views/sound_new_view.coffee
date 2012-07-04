@@ -21,13 +21,14 @@ module.exports = class SoundNewView extends Backbone.View
 
   new: (e) =>
     e.preventDefault()
-    soundUrl = @$('input[name="url"]').val()
-    unless soundUrl is ""
-      req = $.getJSON "#{@apiUrls.resolve}?url=#{soundUrl}&client_id=#{app.apiKey}"
+    url = @$('input[name="url"]').val()
+    if url.match(/soundcloud.com/)?
+      req = $.getJSON "#{@apiUrls.resolve}?url=#{url}&client_id=#{app.apiKey}"
       req.success @create
 
   # TODO: refactor, views should bind to add event
   create: (res) =>
+    return unless res.kind is 'track'
     playlist = app.playlists.current()
     $.when(@getWaveformData(res.waveform_url))
      .then (waveformData) =>
