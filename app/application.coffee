@@ -14,7 +14,7 @@ module.exports = class Application
   constructor: ->
     $ =>
       @initialize()
-      #console?.log 'Hire me :) http://meleyal.com'
+      console?.log 'Hire me :) http://meleyal.com'
       Backbone.history.start(pushState:true)
 
   initialize: ->

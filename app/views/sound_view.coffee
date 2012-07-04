@@ -10,8 +10,8 @@ module.exports = class SoundView extends Backbone.View
     @$el.attr 'title', 'Click to play, double click to open on SoundCloud'
 
   togglePlay: (e) =>
-    play = @model.get('play')
-    @model.set(play:!play)
+    play = @model.get 'play'
+    @model.set play:!play
 
   onChangePlaying: (model) =>
     if model.get('play') then @stream.play() else @stream.pause()

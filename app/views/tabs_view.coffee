@@ -2,8 +2,6 @@ module.exports = class TabsView extends Backbone.View
 
   className: 'tabs'
 
-  initialize: ->
-
   render: ->
     @$el.append app.playlistsView.render().el
     @$el.append app.soundNewView.render().el

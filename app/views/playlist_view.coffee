@@ -7,13 +7,11 @@ module.exports = class PlaylistView extends Backbone.View
   events:
     'click': 'select'
 
-  render: (model) ->
-    @model = model
+  render: (@model) ->
     @$el.html @template({ model })
     @$el.css backgroundColor: model.get('color')
     this
 
   select: (e) =>
-    #@model.sounds.fetch()
     e.preventDefault()
     @model.set selected:true

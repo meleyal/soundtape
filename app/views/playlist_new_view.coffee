@@ -7,15 +7,9 @@ module.exports = class PlaylistNewView extends Backbone.View
   events:
     'submit form': 'create'
 
-  initialize: ->
-    #console.log @template
-
   render: =>
     @$el.html @template
     this
-
-  show: ->
-    @$el.show()
 
   hide: ->
     @$('form')[0].reset()

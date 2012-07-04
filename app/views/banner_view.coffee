@@ -9,7 +9,7 @@ module.exports = class BannerView extends Backbone.View
   template: require './templates/banner'
 
   events:
-    'click nav a': 'onNavClick'
+    'click nav a': 'activateTab'
 
   initialize: ->
     app.playlists.on 'change:selected', @render
@@ -20,7 +20,7 @@ module.exports = class BannerView extends Backbone.View
     @$el.css backgroundColor: model.get('color')
     this
 
-  onNavClick: (e) =>
+  activateTab: (e) =>
     e.preventDefault()
     el = $(e.currentTarget)
     action = el.attr('data-action')
@@ -29,5 +29,5 @@ module.exports = class BannerView extends Backbone.View
     el.addClass 'active'
     app.tabsView.switchTo action
 
-  deactivateNav: (e) =>
+  deactivateTabs: (e) =>
     @$('nav a').removeClass('active')

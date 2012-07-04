@@ -15,9 +15,6 @@ module.exports = class SoundNewView extends Backbone.View
     @$el.html @template
     this
 
-  show: ->
-    @$el.show()
-
   hide: ->
     @$('form')[0].reset()
     @$el.hide()
@@ -40,7 +37,7 @@ module.exports = class SoundNewView extends Backbone.View
           waveform_data: waveformData
         sound = playlist.sounds.create(_.extend res, extraData)
         app.soundsView.addOne(sound)
-        app.bannerView.deactivateNav()
+        app.bannerView.deactivateTabs()
         @hide()
 
   getWaveformData: (waveform_url) ->

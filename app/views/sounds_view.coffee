@@ -7,12 +7,11 @@ module.exports = class SoundsView extends Backbone.View
   initialize: ->
     app.playlists.on 'change:selected', @renderSounds
 
-  render: ->
-    this
+  render: -> this
 
   renderSounds: (playlist) =>
     @$el.empty()
-    @addAll(playlist.sounds)
+    @addAll playlist.sounds
 
   addOne: (model) =>
     view = new SoundView

@@ -7,8 +7,6 @@ module.exports = class WelcomeView extends Backbone.View
   events:
     'submit form': 'create'
 
-  initialize: ->
-
   render: ->
     @$el.html @template
     this

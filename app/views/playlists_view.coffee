@@ -9,14 +9,9 @@ module.exports = class PlaylistsView extends Backbone.View
     app.playlists.on 'add', @addOne
     app.playlists.on 'change:selected', @hide
 
-  render: ->
-    this
+  render: -> this
 
-  show: ->
-    @$el.show()
-
-  hide: =>
-    @$el.hide()
+  hide: => @$el.hide()
 
   addOne: (model) =>
     view = new PlaylistView
