@@ -10,19 +10,16 @@
     font-size: 20px;
   }
   form {
-    border: 1px solid #ddd;
     padding: 40px;
-    -webkit-border-radius: 10px;
-    -webkit-box-shadow: 5px 5px 5px rgba(black, 0.1);
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(black, 0.1);
   }
   input {
     width: 90%;
     font-weight: bold;
-    /*border: none;*/
-    /*border: 2px dashed #999;*/
     margin-bottom: 20px;
     font-size: 20px;
     padding: 10px;
-    /*text-align: center;*/
   }
 }

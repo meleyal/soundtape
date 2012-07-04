@@ -1,19 +1,5 @@
 .playlists {
-  display: none;
-  background: #eee;
-  border-bottom: 1px solid #D9D9D9;
-  padding: 20px;
-  padding-bottom: 0;
-  input {
-    width: 85%;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 8px;
-    margin-right: 5px;
-  }
-  button {
-    font-size: 14px;
-  }
+  padding-bottom: 0 !important;
 }
 
 .playlist {
@@ -29,24 +15,10 @@
     padding: 11px;
     text-decoration: none;
   }
-  &.selected {
-    background: green;
-  }
 }
 
 .playlist-new {
-  display: none;
-  background: #eee;
-  border-bottom: 1px solid #D9D9D9;
-  padding: 20px;
   input {
-    width: 40%;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 8px;
-    margin-right: 5px;
-  }
-  button {
-    font-size: 14px;
+    width: 40% !important;
   }
 }
