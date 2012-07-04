@@ -3,7 +3,6 @@ PlaylistView = require './playlist_view'
 module.exports = class PlaylistsView extends Backbone.View
 
   className: 'playlists tab'
-  template: require './templates/playlists'
 
   initialize: ->
     app.playlists.on 'reset', @addAll

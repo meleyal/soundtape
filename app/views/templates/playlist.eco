@@ -1,1 +1,3 @@
-<a href="#"><%= @model.get('title') %></a>
+<a href="#">
+  <%= @model.get('title') %>
+</a>

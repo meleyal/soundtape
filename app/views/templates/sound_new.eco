@@ -1,4 +1,4 @@
 <form novalidate>
   <input name="url" type="url" placeholder="SoundCloud track URL">
-  <button type="submit" class="sc-button create">Add</button>
+  <button type="submit">Add</button>
 </form>
