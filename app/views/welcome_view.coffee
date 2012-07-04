@@ -16,6 +16,7 @@ module.exports = class WelcomeView extends Backbone.View
     data =
       title: @$('input[name="title"]').val()
       description: @$('input[name="description"]').val()
-    model = app.playlists.create(data)
-    model.set selected:true
-    @remove()
+    unless data.title is ""
+      model = app.playlists.create(data)
+      model.set selected:true
+      @remove()
