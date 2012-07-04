@@ -4,3 +4,32 @@
   S  O  U  N  D  T  A  P  E
 
 |||||||||||||||||||||||||||||
+
+
+  Create playlists of your favorite tracks on SoundCloud
+
+  http://soundtape.herokuapp.com/
+
+
+Requirements
+------------
+
+  - <canvas> http://caniuse.com/#feat=canvas
+  - localStorage http://caniuse.com/#feat=namevalue-storage
+
+
+Built with
+----------
+
+  - Brunch http://brunch.io
+  - Backbone.js http://backbonejs.org/
+  - UI based on http://muxtape.com
+
+Todo
+----
+
+  - Track ordering
+  - Playlist editing
+  - Error feedback
+  - Responsive
+  - Bookmarklet
