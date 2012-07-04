@@ -11,14 +11,15 @@ SoundNewView = require 'views/sound_new_view'
 
 module.exports = class Application
 
+  apiKey: '76fc7439611dfed3405d099962c576d7'
+
   constructor: ->
     $ =>
       @initialize()
+      Backbone.history.start pushState:true
       console?.log 'Hire me :) http://meleyal.com'
-      Backbone.history.start(pushState:true)
 
   initialize: ->
-    @apiKey = '76fc7439611dfed3405d099962c576d7'
     SC.initialize client_id: @apiKey
     @router = new Router
     @playlists = new Playlists
