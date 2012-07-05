@@ -35,3 +35,13 @@ Todo
   - Error feedback
   - Responsive design
   - Bookmarklet
+
+Development
+-----------
+
+  Requires node/npm, ruby/rubygems
+
+  npm install -g brunch
+  npm install
+  gem install sass
+  npm start
