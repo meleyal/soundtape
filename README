@@ -30,8 +30,8 @@ Todo
 ----
 
   - Documentation
-  - Track ordering
-  - Playlist editing
+  - Track CRUD
+  - Playlist CRUD
   - Error feedback
   - Responsive design
   - Bookmarklet
