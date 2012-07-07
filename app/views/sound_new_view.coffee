@@ -23,7 +23,7 @@ module.exports = class SoundNewView extends Backbone.View
     e.preventDefault()
     url = @$('input[name="url"]').val()
     if url.match(/soundcloud.com/)?
-      req = $.getJSON "#{@apiUrls.resolve}?url=#{url}&client_id=#{app.apiKey}"
+      req = $.getJSON "#{@apiUrls.resolve}?url=#{url}&client_id=#{app.apiKey}&callback=?"
       req.success @create
 
   # TODO: refactor, views should bind to add event
