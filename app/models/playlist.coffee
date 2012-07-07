@@ -3,6 +3,7 @@ Sounds = require '../models/sounds'
 # The **Playlist** model has `title`, `description`, `color`
 # and `selected` attributes. It also holds a `sounds` collection,
 # associated by the `playlist_id` foreign key on each `Sound`.
+
 module.exports = class Playlist extends Backbone.Model
 
   # Set some useful defaults.
