@@ -1,3 +1,4 @@
+# Require all the things
 Router = require 'lib/router'
 Playlists = require 'models/playlists'
 Sounds = require 'models/sounds'
@@ -9,16 +10,19 @@ TabsView = require 'views/tabs_view'
 SoundsView = require 'views/sounds_view'
 SoundNewView = require 'views/sound_new_view'
 
+# Application bootstrapper
 module.exports = class Application
 
   apiKey: '76fc7439611dfed3405d099962c576d7'
 
+  # Kick off the app on document ready
   constructor: ->
     $ =>
       @initialize()
       Backbone.history.start pushState:true
       console?.log 'Hire me :) http://meleyal.com'
 
+  # Create the initial moving parts
   initialize: ->
     SC.initialize client_id: @apiKey
     @router = new Router
@@ -32,4 +36,5 @@ module.exports = class Application
     @soundsView = new SoundsView
     @soundNewView = new SoundNewView
 
+# `window.app` acts as the mediator between classes
 window.app = new Application
