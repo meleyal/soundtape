@@ -1,25 +1,31 @@
 Sounds = require '../models/sounds'
 
+# The **Playlist** model has `title`, `description`, `color`
+# and `selected` attributes. It also holds a `sounds` collection,
+# associated by the `playlist_id` foreign key on each `Sound`.
 module.exports = class Playlist extends Backbone.Model
 
+  # Set some useful defaults.
   defaults:
     title: 'SoundTape'
     description: ''
-    #color: '#F60'
     selected: false
 
+  # Populate the playlist from the `Sounds` store.
   initialize: ->
     app.sounds.fetch()
-    sounds = app.sounds.where(playlist_id: @id)
-    @sounds = new Sounds(sounds)
-    @set 'color', @randomColor() unless @get('color')?
+    sounds = app.sounds.where playlist_id:@id
+    @sounds = new Sounds sounds
     @sounds.on 'finished', @playNext
-    super
+    @set 'color', @randomColor() unless @get('color')?
 
-  # src: http://goo.gl/yKUXW
+  # Generate a random color for the playlist,
+  # based on [goo.gl/yKUXW](http://goo.gl/yKUXW).
   randomColor: ->
     '#' + Math.floor(Math.random() * 16777215).toString(16)
 
+  # Find the next sound in the playlist and play it
+  # (triggered by the `finished` event on the `Sound` model).
   playNext: (sound) =>
     index = @sounds.indexOf sound
     next = @sounds.at(index - 1)
