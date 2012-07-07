@@ -4,10 +4,14 @@ module.exports = class Router extends Backbone.Router
     '': 'index'
     '*all': 'redirect'
 
+  # The index action handles rendering the initial views.
+  # New users see a welcome screen, existing users see their
+  # last selected playlist (saved in a cookie).
   index: ->
-    $('#content').append app.bannerView.render().el
-    $('#content').append app.tabsView.render().el
-    $('#content').append app.soundsView.render().el
+    $('#content')
+      .append(app.bannerView.render().el)
+      .append(app.tabsView.render().el)
+      .append(app.soundsView.render().el)
 
     app.playlists.fetch()
 
@@ -19,5 +23,8 @@ module.exports = class Router extends Backbone.Router
     else
       $('#content').append app.welcomeView.render().el
 
+  # Nginx redirects all requests to index.html.
+  # Here we catch any routes triggered on the client
+  # and redirect them to the index action.
   redirect: ->
     @navigate ''
