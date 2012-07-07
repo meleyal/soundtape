@@ -13,6 +13,7 @@ module.exports = class Playlist extends Backbone.Model
     selected: false
 
   # Populate the playlist from the `Sounds` store.
+  # Set a random color unless one is already set.
   initialize: ->
     app.sounds.fetch()
     sounds = app.sounds.where playlist_id:@id

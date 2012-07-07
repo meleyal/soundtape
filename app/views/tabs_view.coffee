@@ -1,13 +1,20 @@
+# The **TabsView** renders the tab subviews and handles
+# switching between them.
+
 module.exports = class TabsView extends Backbone.View
 
+  # Set the CSS class.
   className: 'tabs'
 
+  # Render the subviews into the DOM.
   render: ->
-    @$el.append app.playlistsView.render().el
-    @$el.append app.soundNewView.render().el
-    @$el.append app.playlistNewView.render().el
+    @$el
+      .append(app.playlistsView.render().el)
+      .append(app.soundNewView.render().el)
+      .append(app.playlistNewView.render().el)
     this
 
+  # Switch to the requested tab (called from `BannerView`).
   switchTo: (tab) ->
     @$('.tab').hide()
     switch tab
