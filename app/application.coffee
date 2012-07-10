@@ -20,7 +20,6 @@ module.exports = class Application
     $ =>
       @initialize()
       Backbone.history.start pushState:true
-      console?.log 'Hire me :) http://meleyal.com'
 
   # Create the initial moving parts
   initialize: ->
