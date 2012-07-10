@@ -1,4 +1,4 @@
-# The **WelcomeView** is show to new users, inviting them
+# The **WelcomeView** is shown to new users, inviting them
 # to create their first playlist.
 
 module.exports = class WelcomeView extends Backbone.View
