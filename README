@@ -5,7 +5,7 @@
 |||||||||||||||||||||||||||||
 
 
-  Create playlists of your favorite tracks on SoundCloud
+  Create playlists of your favorite tracks on SoundCloud:
 
   http://soundtape.herokuapp.com/
 
@@ -34,7 +34,7 @@ Built with
 Todo
 ----
 
-  - Documentation
+  ✓ Documentation
   - Track CRUD
   - Playlist CRUD
   - Error feedback
